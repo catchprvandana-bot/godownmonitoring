@@ -26,7 +26,7 @@ except ImportError:
 ALERT_TO              = os.environ.get("ALERT_WHATSAPP_TO")
 
 RISK_ALERT_THRESHOLD  = int(os.environ.get("RISK_ALERT_THRESHOLD", "70"))
-ALERT_COOLDOWN_MINUTES = int(os.environ.get("ALERT_COOLDOWN_MINUTES", "10"))
+ALERT_COOLDOWN_MINUTES = int(os.environ.get("ALERT_COOLDOWN_MINUTES", "1"))
 
 # ── Internal state ────────────────────────────────────────────────────────────
 # Maps zone_id → datetime of last alert (for time-based cooldown)
@@ -65,20 +65,35 @@ def _build_message(zone_id: str, zone_label: str, risk_score: int, sensor: dict 
 
 
 def _send_whatsapp(body: str) -> bool:
-    """Send a WhatsApp message via PyWhatKit. Returns True on success."""
+    """Send a WhatsApp message via PyWhatKit/Webbrowser. Returns True on success."""
     global _last_whatsapp_error
     if not ALERT_TO:
         return False
     try:
+        import time
+        import urllib.parse
+        import webbrowser
+        import pyautogui
+
         print(f"[alerts.py] Attempting to send WhatsApp message to {ALERT_TO}...")
-        import pywhatkit  # pyright: ignore[reportMissingImports, reportMissingModuleSource]
         # Clean the number (remove 'whatsapp:' prefix if present from old config)
         to_number = ALERT_TO.replace("whatsapp:", "")
-        print(f"[alerts.py] Cleaned number: {to_number}. Launching browser in 15s...")
-        # sendwhatmsg_instantly opens browser, types message, and sends it
-        # wait_time=15 (wait 15s for web to load), tab_close=True (close tab after sending)
-        pywhatkit.sendwhatmsg_instantly(to_number, body, wait_time=15, tab_close=True, close_time=3)
-        print(f"[alerts.py] WhatsApp message dispatched successfully via PyWhatKit.")
+        print(f"[alerts.py] Cleaned number: {to_number}. Launching browser...")
+        
+        # Build WhatsApp Web URL
+        parsed_message = urllib.parse.quote(body)
+        url = f"https://web.whatsapp.com/send?phone={to_number}&text={parsed_message}"
+        
+        # Open in default browser
+        webbrowser.open(url)
+        
+        # Wait for WhatsApp Web to fully load and the chat box to be ready
+        time.sleep(20)
+        
+        # Press Enter to send the message automatically
+        pyautogui.press("enter")
+        
+        print(f"[alerts.py] WhatsApp message dispatched automatically.")
         _last_whatsapp_error = None
         return True
     except Exception as exc:
@@ -143,12 +158,11 @@ def get_alert_log(limit: int = 50) -> list[dict]:
     return list(reversed(_alert_log[-limit:]))
 
 
-def twilio_configured() -> bool:
+def whatsapp_configured() -> bool:
     """Return True if real WhatsApp dispatch is active."""
-    # Kept function name same to avoid breaking API status dashboard
     return bool(ALERT_TO)
 
 
-def get_twilio_error() -> str | None:
+def get_whatsapp_error() -> str | None:
     """Return the last WhatsApp send error string, or None if no error."""
     return _last_whatsapp_error

@@ -30,19 +30,14 @@ def main():
     print("  Godown Monitoring - Twilio WhatsApp Alert Test")
     print("=" * 60)
 
-    sid_ok  = "[SET]" if alerts.TWILIO_ACCOUNT_SID else "[NOT SET]"
-    tok_ok  = "[SET]" if alerts.TWILIO_AUTH_TOKEN else "[NOT SET]"
     to_val  = alerts.ALERT_TO or "[NOT SET]"
-    active  = "[YES - live]" if alerts.twilio_configured() else "[NO - simulated mode]"
+    active  = "[YES - live]" if alerts.whatsapp_configured() else "[NO - simulated mode]"
 
     print(f"\n[CONFIG]")
-    print(f"   TWILIO_ACCOUNT_SID  : {sid_ok}")
-    print(f"   TWILIO_AUTH_TOKEN   : {tok_ok}")
-    print(f"   TWILIO_WHATSAPP_FROM: {alerts.TWILIO_WHATSAPP_FROM}")
     print(f"   ALERT_WHATSAPP_TO   : {to_val}")
     print(f"   Risk threshold      : {alerts.RISK_ALERT_THRESHOLD}")
     print(f"   Cooldown (min)      : {alerts.ALERT_COOLDOWN_MINUTES}")
-    print(f"   Twilio active       : {active}")
+    print(f"   WhatsApp active     : {active}")
 
     print("\n[TEST] Firing test alert for zone-c (risk=85, synthetic sensor data)...")
 
@@ -82,7 +77,7 @@ def main():
         print(f"\n[SENT] WhatsApp message sent to {alerts.ALERT_TO}")
     else:
         print("\n[SIMULATED] Alert logged in simulated mode (no WhatsApp sent).")
-        print("   -> Fill in .env with real Twilio credentials to enable live dispatch.")
+        print("   -> Fill in .env with a real WhatsApp number to enable live dispatch.")
 
     log = alerts.get_alert_log()
     print(f"\n[LOG] Alert log entries: {len(log)}")

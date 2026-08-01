@@ -154,8 +154,8 @@ def api_status():
     return {
         "status": "ok",
         "model_loaded": _model is not None,
-        "twilio_configured": alerts.twilio_configured(),
-        "twilio_error": alerts.get_twilio_error(),
+        "whatsapp_configured": alerts.whatsapp_configured(),
+        "whatsapp_error": alerts.get_whatsapp_error(),
         "zones": sensors.list_zones(),
     }
 
@@ -202,7 +202,7 @@ async def classify(file: UploadFile = File(...), zone_id: str | None = Form(defa
 
         # ── Immediate alert check after image upload ───────────────────────────
         # Don't wait for the next polling cycle — compute risk now and fire
-        # a Twilio WhatsApp alert right away if the zone crosses the threshold.
+        # a WhatsApp alert right away if the zone crosses the threshold.
         sensor = sensors.get_simulated_reading(zone_id)
         sensor_risk, _ = risk.score_sensor(sensor)
         total_risk, _ = risk.combine_with_vision(
