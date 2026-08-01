@@ -1,0 +1,14 @@
+fastapi
+uvicorn[standard]
+python-multipart
+python-dotenv
+
+# CV model inference — requires Python 3.9–3.12 (TensorFlow not yet on 3.13+).
+# If on Python 3.14, train on Colab (GPU) and copy spoilage_model.h5 to backend/model/.
+# The backend runs in mock-classification mode if the model file is absent.
+# tensorflow
+# pillow
+# numpy
+
+# WhatsApp / SMS alerts via pywhatkit
+pywhatkit

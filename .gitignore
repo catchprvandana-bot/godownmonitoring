@@ -1,0 +1,30 @@
+# Python
+__pycache__/
+*.py[cod]
+*.so
+.mypy_cache/
+.pytest_cache/
+*.egg-info/
+dist/
+build/
+.venv/
+venv/
+env/
+
+# Environment / secrets — NEVER commit these
+.env
+
+# ML dataset (generated locally or downloaded)
+ml/dataset/
+
+# Trained model (copy from Colab or generated locally)
+backend/model/*.h5
+backend/model/*.keras
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db

@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AgroGuard — Godown Monitoring Dashboard</title>
+  <meta name="description" content="AI-powered real-time spoilage-risk monitoring for grain godowns. Live sensor feeds, computer vision classification, and instant alerts." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="bg-grid"></div>
+
+  <header>
+    <div class="header-inner">
+      <div class="brand">
+        <div class="brand-icon" aria-hidden="true">
+          <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="16" cy="16" r="15" stroke="url(#g1)" stroke-width="2"/>
+            <path d="M16 7 C10 7 7 11 7 16 S10 25 16 25 S25 21 25 16 S22 7 16 7Z" fill="url(#g2)" opacity="0.3"/>
+            <path d="M12 20 L16 9 L20 20" stroke="url(#g1)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M13 17 L19 17" stroke="url(#g1)" stroke-width="1.5" stroke-linecap="round"/>
+            <defs>
+              <linearGradient id="g1" x1="0" y1="0" x2="32" y2="32" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#4ade80"/>
+                <stop offset="1" stop-color="#22d3ee"/>
+              </linearGradient>
+              <linearGradient id="g2" x1="0" y1="0" x2="32" y2="32" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#4ade80"/>
+                <stop offset="1" stop-color="#22d3ee"/>
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+        <div class="brand-text">
+          <h1>AgroGuard</h1>
+          <p class="subtitle">Godown Intelligence Platform</p>
+        </div>
+      </div>
+      <div class="header-status">
+        <span class="live-badge" id="live-badge">
+          <span class="pulse-dot"></span>
+          LIVE
+        </span>
+        <span class="status-detail" id="status-detail">Connecting…</span>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- Zone Summary Bar -->
+    <div class="summary-bar" id="summary-bar">
+      <div class="summary-item" id="sum-green">
+        <span class="sum-num" id="sum-green-num">—</span>
+        <span class="sum-label">Safe Zones</span>
+      </div>
+      <div class="summary-divider"></div>
+      <div class="summary-item" id="sum-yellow">
+        <span class="sum-num" id="sum-yellow-num">—</span>
+        <span class="sum-label">At Risk</span>
+      </div>
+      <div class="summary-divider"></div>
+      <div class="summary-item" id="sum-red">
+        <span class="sum-num" id="sum-red-num">—</span>
+        <span class="sum-label">Critical</span>
+      </div>
+      <div class="summary-divider"></div>
+      <div class="summary-item">
+        <span class="sum-num" id="sum-poll">4s</span>
+        <span class="sum-label">Refresh</span>
+      </div>
+    </div>
+
+    <!-- Zone Cards -->
+    <section id="zones" aria-label="Zone status"></section>
+
+    <!-- Bottom Panels -->
+    <div class="panels-row">
+      <!-- Classify Panel -->
+      <section class="panel" id="classify-panel">
+        <div class="panel-header">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+          <h2>CV Classification</h2>
+        </div>
+        <p class="panel-desc">Upload a sample image to classify spoilage type using the AI model (or mock engine if model not loaded).</p>
+        <form id="classify-form" novalidate>
+          <div class="form-row">
+            <label for="classify-zone" class="form-label">Zone</label>
+            <select id="classify-zone" name="zone_id"></select>
+          </div>
+          <div class="form-row">
+            <label for="classify-file" class="form-label">Image</label>
+            <div class="file-input-wrap">
+              <input type="file" id="classify-file" accept="image/*" required aria-required="true" />
+              <span class="file-hint" id="file-hint">No file chosen</span>
+            </div>
+          </div>
+          <button type="submit" id="classify-btn">
+            <span class="btn-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.88 9.88a3 3 0 1 0 4.24 4.24"/><path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"/><path d="M6.61 6.61A13.526 13.526 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61"/><line x1="2" y1="2" x2="22" y2="22"/></svg>
+            </span>
+            Classify Image
+          </button>
+        </form>
+        <div id="classify-result" class="classify-result" role="status" aria-live="polite"></div>
+      </section>
+
+      <!-- Alert Log Panel -->
+      <section class="panel" id="alerts-panel">
+        <div class="panel-header">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
+          <h2>Alert Feed</h2>
+          <span class="alert-count-badge" id="alert-count-badge">0</span>
+        </div>
+        <ul id="alert-log" role="log" aria-live="polite" aria-label="Alert log"></ul>
+      </section>
+    </div>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
