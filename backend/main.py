@@ -215,6 +215,7 @@ async def classify(file: UploadFile = File(...), zone_id: str | None = Form(defa
         result["risk_score"]  = total_risk
         result["alert_fired"] = alert_entry is not None
         result["alert_channel"] = alert_entry["channel"] if alert_entry else None
+        result["whatsapp_to"] = alerts.ALERT_TO
 
     return result
 

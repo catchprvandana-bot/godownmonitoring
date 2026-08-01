@@ -149,7 +149,24 @@ async function refreshAlerts() {
     // First load, don't buzz
     previousAlertCount = alerts.length;
   } else if (alerts.length > previousAlertCount) {
+    // New alerts arrived!
+    const newestAlert = alerts[0];
+    
+    // Play the buzzer for the alert
     playBuzzer();
+    
+    // Trigger redirect if backend marked it for WhatsApp and we have a number
+    if (newestAlert.needs_whatsapp_redirect && newestAlert.whatsapp_to) {
+        const phone = newestAlert.whatsapp_to.replace("whatsapp:", "").replace("+", "");
+        const text = encodeURIComponent(newestAlert.message);
+        
+        const popup = window.open(`https://wa.me/${phone}?text=${text}`, "_blank");
+        if (!popup || popup.closed || typeof popup.closed == 'undefined') {
+            // Popup blocker prevented the new tab, redirect current window instead
+            window.location.href = `https://wa.me/${phone}?text=${text}`;
+        }
+    }
+    
     previousAlertCount = alerts.length;
   }
 
@@ -215,6 +232,15 @@ if (classifyForm) {
 
       if (zoneSelect && zoneSelect.value === 'zone-c' && result.risk_score >= 85) {
         playBuzzer();
+        if (result.whatsapp_to) {
+            const phone = result.whatsapp_to.replace("whatsapp:", "").replace("+", "");
+            const text = encodeURIComponent("Godown Alert! CV Classification detected high risk (Score: " + result.risk_score + "/100). Please inspect immediately.");
+            
+            const popup = window.open(`https://wa.me/${phone}?text=${text}`, "_blank");
+            if (!popup || popup.closed || typeof popup.closed == 'undefined') {
+                window.location.href = `https://wa.me/${phone}?text=${text}`;
+            }
+        }
       }
 
       // Label → display config
@@ -277,3 +303,56 @@ if (classifyForm) {
 }
 
 init();
+
+/* 
+================================================================================
+Godown Monitoring System - LinkedIn Post Options
+================================================================================
+
+Option 1: The "Tech-Focused & Problem Solver" (Recommended for recruiters & engineers)
+--------------------------------------------------------------------------------
+Did you know that millions of tons of harvested grains are lost every year simply due to poor storage conditions? 🌾📉
+
+I wanted to see how technology could help solve this, so I built the Godown Monitoring System—an end-to-end AgriTech platform that detects and predicts grain spoilage in real-time. 
+
+Here is how it works under the hood:
+📡 IoT Sensor Tracking: Continuously monitors Temperature, Humidity, and CO₂ levels to calculate dynamic spoilage risk scores.
+👁️ Computer Vision: Integrated a MobileNetV2 deep learning model to visually inspect uploaded images of grains and classify them for mold, pest damage, or discoloration.
+🚨 Automated Action: If a storage zone reaches a critical risk threshold, the system automatically dispatches an emergency WhatsApp alert to the facility manager via Twilio.
+💻 Tech Stack: FastAPI (Backend), TensorFlow/Keras (ML), Vanilla JS/HTML/CSS (Dashboard), and Twilio API.
+
+Building this taught me so much about combining real-time data streams with AI inference and third-party API integrations. 
+
+I’ve attached a demo of the dashboard catching a "leaky roof" scenario! Let me know what you think in the comments. 👇
+
+#AgriTech #ComputerVision #IoT #FastAPI #MachineLearning #FoodSecurity #Python #SoftwareEngineering #TechForGood #Developer
+
+Option 2: The "Story-Driven & Impact" (Recommended for a broader audience and founders)
+--------------------------------------------------------------------------------
+We spend so much effort growing food, but what happens after the harvest? 🤔 
+
+A massive amount of grain spoils in storage facilities (godowns) before it ever reaches the market. To tackle this, I built an intelligent Godown Monitoring System to catch spoilage before it destroys the harvest.
+
+I combined IoT (monitoring temp, humidity, and CO₂) with AI (Computer Vision to visually detect mold and pests). The system calculates a real-time risk score for different storage zones. If things get dangerous—like a spike in humidity from a leaky roof—it instantly fires off a WhatsApp alert to the manager so they can save the crop. 📲🌾
+
+This project was an incredible journey into full-stack development, bringing together a FastAPI backend, TensorFlow for the vision model, and Twilio for automated alerts.
+
+Check out the video below to see the real-time dashboard and AI classification in action! 
+
+#AgriTech #Innovation #ArtificialIntelligence #WebDevelopment #TechForGood #IoT #MachineLearning #Engineering
+
+Option 3: Short, Punchy & Demo-Heavy (Recommended if you have a great video demo)
+--------------------------------------------------------------------------------
+Just wrapped up my latest full-stack project: an AI-powered Godown Monitoring System to prevent grain spoilage! 🚀🌾
+
+🔹 The Problem: Grains rotting in storage due to unmonitored environmental changes.
+🔹 The Solution: A real-time dashboard that tracks IoT data (Temp/Humidity/CO₂) and uses Computer Vision to detect mold. 
+🔹 The Result: Automated WhatsApp alerts sent to managers the second a storage zone becomes critical. 
+
+Built with: Python, FastAPI, TensorFlow (MobileNetV2), Twilio, and JavaScript. 
+
+Check out the demo below where the system detects a critical spike and dispatches an alert! 👇
+
+#AgriTech #MachineLearning #FastAPI #ComputerVision #DeveloperPortfolio #Python
+================================================================================
+*/

@@ -52,6 +52,7 @@ def main():
 
     # Force-bypass the cooldown for the test by clearing internal state
     alerts._last_alerted_at.clear()
+    alerts._last_whatsapp_alerted_at.clear()
 
     entry = alerts.maybe_alert(
         zone_id="zone-c",

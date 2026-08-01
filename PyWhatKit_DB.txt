@@ -333,3 +333,43 @@ Time: 15:15
 Phone Number: +919494294249
 Message: 🔴🚨 *Godown Alert* — Paddy Store C (leaky roof)Risk Score : *100/100*Zone ID : zone-cTemperature : 30.7°CHumidity : 85.1%Gas (CO₂) : 841.3 ppmTime : 2026-08-01 09:44 UTCAction: Inspect zone immediately and improve ventilation.
 --------------------
+Date: 1/8/2026
+Time: 15:38
+Phone Number: +919494294249
+Message: 🔴 *Godown Alert* — Paddy Store C (leaky roof)Risk Score : *75/100*Zone ID : zone-cTemperature : 30.2°CHumidity : 74.8%Gas (CO₂) : 616.4 ppmTime : 2026-08-01 10:07 UTCAction: Inspect zone immediately and improve ventilation.
+--------------------
+Date: 1/8/2026
+Time: 15:38
+Phone Number: +919494294249
+Message: 🔴 *Godown Alert* — Paddy Store C (leaky roof)Risk Score : *75/100*Zone ID : zone-cTemperature : 30.2°CHumidity : 75.0%Gas (CO₂) : 627.6 ppmTime : 2026-08-01 10:08 UTCAction: Inspect zone immediately and improve ventilation.
+--------------------
+Date: 1/8/2026
+Time: 15:41
+Phone Number: +919494294249
+Message: 🔴 *Godown Alert* — Paddy Store C (leaky roof)Risk Score : *75/100*Zone ID : zone-cTemperature : 30.6°CHumidity : 74.3%Gas (CO₂) : 646.0 ppmTime : 2026-08-01 10:11 UTCAction: Inspect zone immediately and improve ventilation.
+--------------------
+Date: 1/8/2026
+Time: 15:41
+Phone Number: +919494294249
+Message: 🔴 *Godown Alert* — Paddy Store C (leaky roof)Risk Score : *75/100*Zone ID : zone-cTemperature : 30.6°CHumidity : 74.6%Gas (CO₂) : 672.7 ppmTime : 2026-08-01 10:11 UTCAction: Inspect zone immediately and improve ventilation.
+--------------------
+Date: 1/8/2026
+Time: 15:42
+Phone Number: +919494294249
+Message: 🔴 *Godown Alert* — Paddy Store C (leaky roof)Risk Score : *75/100*Zone ID : zone-cTemperature : 30.4°CHumidity : 74.7%Gas (CO₂) : 678.7 ppmTime : 2026-08-01 10:11 UTCAction: Inspect zone immediately and improve ventilation.
+--------------------
+Date: 1/8/2026
+Time: 16:5
+Phone Number: +919494294249
+Message: 🔴 *Godown Alert* — Paddy Store C (leaky roof)Risk Score : *80/100*Zone ID : zone-cTemperature : 30.0°CHumidity : 75.2%Gas (CO₂) : 576.0 ppmTime : 2026-08-01 10:34 UTCAction: Inspect zone immediately and improve ventilation.
+--------------------
+Date: 1/8/2026
+Time: 16:10
+Phone Number: +919494294249
+Message: 🔴🚨 *Godown Alert* — Paddy Store C (leaky roof)Risk Score : *85/100*Zone ID : zone-cTemperature : 31.4°CHumidity : 76.1%Gas (CO₂) : 631.3 ppmTime : 2026-08-01 10:40 UTCAction: Inspect zone immediately and improve ventilation.
+--------------------
+Date: 1/8/2026
+Time: 16:13
+Phone Number: +919494294249
+Message: 🔴🚨 *Godown Alert* — Paddy Store C (leaky roof)Risk Score : *85/100*Zone ID : zone-cTemperature : 30.3°CHumidity : 78.8%Gas (CO₂) : 707.0 ppmTime : 2026-08-01 10:43 UTCAction: Inspect zone immediately and improve ventilation.
+--------------------
